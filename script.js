@@ -34,6 +34,10 @@ function renderLessonCards() {
     `;
     card.addEventListener("click", () => selectLesson(lesson.id));
     card.dataset.lessonId = lesson.id;
+    if (lesson.id === selectedLessonId) {
+      card.classList.add("active");
+      card.setAttribute("aria-current", "true");
+    }
     lessonList.appendChild(card);
   });
 }
@@ -226,7 +230,7 @@ function renderReviewTab(lesson) {
     updateProgress();
     renderLessonCards();
     renderMobileLessonOptions();
-    selectLesson(lesson.id);
+    renderReviewTab(lesson);
   });
 }
 
