@@ -3,7 +3,6 @@ import { lessons } from "./data/lessons.js";
 const lessonList = document.getElementById("lessonList");
 const mobileLessonSelect = document.getElementById("mobileLessonSelect");
 const lessonTitle = document.getElementById("lessonTitle");
-const lessonMeta = document.getElementById("lessonMeta");
 const lessonContent = document.getElementById("lessonContent");
 const progressBar = document.getElementById("progressBar");
 const progressValue = document.getElementById("progressValue");
@@ -75,7 +74,6 @@ function selectLesson(id, options = {}) {
   mobileLessonSelect.value = String(lesson.id);
 
   lessonTitle.textContent = `${lesson.id}. ${lesson.title}`;
-  lessonMeta.textContent = lesson.summary;
   renderTabs();
   renderLessonContent(lesson);
 
@@ -160,13 +158,24 @@ function renderPracticeTab(lesson) {
         </div>
       </div>
       <div class="button-row">
+        <button type="button" id="toggleSolutionButton" class="secondary-button" aria-expanded="false">查看答案</button>
         <button type="button" id="resetPracticeButton" class="secondary-button">重置练习</button>
+      </div>
+      <div id="solutionPanel" class="solution-panel" hidden>
+        <div class="solution-header">
+          <h4>参考答案</h4>
+          <button type="button" id="applySolutionButton" class="secondary-button">应用到编辑器</button>
+        </div>
+        <pre class="code-block"><code>${escapeHtml(getSolutionCss(lesson))}</code></pre>
       </div>
     </section>
   `;
 
   const practiceEditor = document.getElementById("practiceEditor");
   const practicePreview = document.getElementById("practicePreview");
+  const toggleSolutionButton = document.getElementById("toggleSolutionButton");
+  const solutionPanel = document.getElementById("solutionPanel");
+  const applySolutionButton = document.getElementById("applySolutionButton");
   const resetPracticeButton = document.getElementById("resetPracticeButton");
   renderPracticePreview(lesson, practiceEditor.value, practicePreview);
 
@@ -177,11 +186,23 @@ function renderPracticeTab(lesson) {
   });
   practiceEditor.addEventListener("keydown", handleEditorTabKey);
 
+  toggleSolutionButton.addEventListener("click", () => {
+    const isOpen = !solutionPanel.hidden;
+    solutionPanel.hidden = isOpen;
+    toggleSolutionButton.setAttribute("aria-expanded", String(!isOpen));
+    toggleSolutionButton.textContent = isOpen ? "查看答案" : "隐藏答案";
+  });
+
+  applySolutionButton.addEventListener("click", () => {
+    setPracticeEditorValue(lesson, practiceEditor, practicePreview, getSolutionCss(lesson));
+    practiceEditor.focus();
+  });
+
   resetPracticeButton.addEventListener("click", () => {
-    practiceEditor.value = createPracticeStarter(lesson);
-    practiceDrafts[lesson.id] = practiceEditor.value;
-    savePracticeDrafts();
-    renderPracticePreview(lesson, practiceEditor.value, practicePreview);
+    setPracticeEditorValue(lesson, practiceEditor, practicePreview, createPracticeStarter(lesson), {
+      scrollToTop: true
+    });
+    practiceEditor.focus();
   });
 }
 
@@ -352,7 +373,25 @@ function createPracticeStarter(lesson) {
 ${lesson.exercise.map((item) => `- ${item}`).join("\n")}
 */
 
-${lesson.exampleCss}`;
+/* 从这里开始编写你的 CSS */
+`;
+}
+
+function getSolutionCss(lesson) {
+  return lesson.solutionCss ?? lesson.exampleCss;
+}
+
+function setPracticeEditorValue(lesson, editor, preview, value, options = {}) {
+  const { scrollToTop = false } = options;
+  editor.value = value;
+  practiceDrafts[lesson.id] = value;
+  savePracticeDrafts();
+  renderPracticePreview(lesson, value, preview);
+
+  if (scrollToTop) {
+    editor.scrollTop = 0;
+    editor.setSelectionRange(0, 0);
+  }
 }
 
 function renderPracticePreview(lesson, css, preview) {
