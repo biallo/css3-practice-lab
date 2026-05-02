@@ -1,10 +1,29 @@
 # CSS3 Practice Lab
 
-一个 CSS3 重要知识点的课程练习项目。
+一个面向现代 CSS 学习的课程练习项目，覆盖从 CSS3 基础到近年浏览器平台能力的核心知识点。
 
 ## 在线预览
 
 [https://biallo.github.io/css3-practice-lab/](https://biallo.github.io/css3-practice-lab/)
+
+## 课程范围
+
+课程内容包括选择器与优先级、盒模型、背景与渐变、媒体查询、Flexbox、Grid、动画、层叠上下文、自定义属性、容器查询、Subgrid、现代颜色函数、Popover、View Transitions、Anchor Positioning、content-visibility 等。
+
+课程数据按单年拆分在 `data/lessons/` 中：
+
+```text
+data/
+  lessons.js
+  lessons/
+    2009.js
+    2010.js
+    ...
+    2025.js
+    index.js
+```
+
+`data/lessons/index.js` 汇总各年份课程，`data/lessons.js` 为课程补充连续 `id`。
 
 ## 运行
 
@@ -13,15 +32,23 @@ npm install
 npm run dev
 ```
 
-## 内容
+## 构建
 
-- CSS 选择器与优先级
-- Flexbox 布局
-- Grid 网格布局
-- 背景与渐变
-- 阴影与边框
-- Transition 与 Animation
-- 媒体查询与响应式布局
-- 自定义属性与变量
-- 滤镜与混合模式
-- 排版与文本样式
+```bash
+npm run build
+```
+
+## 维护课程
+
+新增课程时，在对应年份文件中添加课程对象，并确认包含这些字段：
+
+- `year`
+- `title`
+- `description`
+- `summary`
+- `coreExplanation`
+- `exampleHtml`
+- `exampleCss`
+- `exercise`
+
+如果某节课需要和示例不同的参考答案，可以额外添加 `solutionCss`；未提供时，练习区会使用 `exampleCss` 作为答案。
