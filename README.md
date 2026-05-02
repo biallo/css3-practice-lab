@@ -2,6 +2,10 @@
 
 一个 CSS3 重要知识点的课程练习项目。
 
+## 在线预览
+
+[https://biallo.github.io/css3-practice-lab/](https://biallo.github.io/css3-practice-lab/)
+
 ## 运行
 
 ```bash
