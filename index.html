@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#133f5c" />
+  <title>CSS3 Practice Lab</title>
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">CSS</div>
+        <div>
+          <p>CSS3 Practice Lab</p>
+          <span>讲解、示例与练习</span>
+        </div>
+      </div>
+
+      <div class="progress-panel">
+        <div class="progress-label">学习进度</div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-value" id="progressValue">0 / 10 已完成</div>
+      </div>
+
+      <label class="mobile-lesson-picker">
+        <span>选择课程</span>
+        <select id="mobileLessonSelect" aria-label="选择课程"></select>
+      </label>
+
+      <div id="lessonList" class="lesson-list"></div>
+    </aside>
+
+    <main class="workspace">
+      <section class="lesson-detail-panel">
+        <header class="lesson-header">
+          <span class="eyebrow">课程内容</span>
+          <h2 id="lessonTitle">请选择一个主题</h2>
+          <p id="lessonMeta">讲解 + 示例 + 练习</p>
+        </header>
+        <nav class="study-tabs" aria-label="学习步骤">
+          <button class="study-tab" type="button" data-tab="explain">讲解</button>
+          <button class="study-tab" type="button" data-tab="practice">练习</button>
+          <button class="study-tab" type="button" data-tab="review">复盘</button>
+        </nav>
+        <article id="lessonContent" class="lesson-content">
+          <div class="empty-state">
+            <p>⚡ 点击左侧的课程卡片，查看 CSS3 核心知识点与练习。</p>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
