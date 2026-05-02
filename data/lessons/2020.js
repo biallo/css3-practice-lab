@@ -9,6 +9,24 @@ export const lessons2020 = [
       "它和 width、height、min/max 尺寸一起计算。如果同时给定明确宽高，比例可能不再参与决定尺寸。",
       "图片和视频区域配合 object-fit 使用，可以减少加载时布局跳动。"
     ],
+    valueReference: [
+      {
+        "name": "aspect-ratio",
+        "values": [
+      "16 / 9：宽高比 16:9。",
+      "1 / 1：正方形。",
+      "auto：使用元素自身比例或自动计算。"
+        ]
+      },
+      {
+        "name": "相关属性",
+        "values": [
+      "width：给出一个轴后，另一个轴可由比例推导。",
+      "height：明确宽高同时存在时比例可能不参与。",
+      "object-fit：控制真实媒体内容如何填充比例盒。"
+        ]
+      }
+    ],
     exampleHtml: `<figure class="ratio-card">
   <div class="media">16 / 9</div>
   <figcaption>稳定比例区域</figcaption>
@@ -37,6 +55,11 @@ export const lessons2020 = [
       "把比例改成 1 / 1，观察卡片变成正方形",
       "创建 4 / 3 的图片占位区域",
       "结合 object-fit: cover 处理真实图片裁切"
+    ],
+    exerciseSolutions: [
+      "把 aspect-ratio: 16 / 9 改成 1 / 1，媒体区域会变成正方形。",
+      "创建 4 / 3 区域可写 aspect-ratio: 4 / 3;，适合传统图片或视频比例。",
+      "真实图片中使用 width: 100%; aspect-ratio: 16 / 9; object-fit: cover;，可稳定占位并裁切填满。"
     ]
   },
   {
@@ -48,6 +71,24 @@ export const lessons2020 = [
       ":focus-visible 只在浏览器判断需要明显焦点提示时匹配，通常是键盘导航场景。",
       ":focus-within 匹配内部有焦点的容器，适合把整个表单组或卡片高亮。",
       "不要用 outline: none 直接删除焦点。可以自定义样式，但必须保留清楚可见的键盘焦点。"
+    ],
+    valueReference: [
+      {
+        "name": "焦点伪类",
+        "values": [
+      ":focus：元素获得焦点时匹配。",
+      ":focus-visible：浏览器判断需要可见焦点时匹配，常见于键盘导航。",
+      ":focus-within：元素自身或后代有焦点时匹配。"
+        ]
+      },
+      {
+        "name": "焦点样式",
+        "values": [
+      "outline：不占布局空间，适合焦点环。",
+      "outline-offset：控制焦点环和元素之间的距离。",
+      "box-shadow：可做自定义光晕，但不要替代语义焦点。"
+        ]
+      }
     ],
     exampleHtml: `<form class="focus-form">
   <label>
@@ -92,6 +133,11 @@ export const lessons2020 = [
       "把 :focus-visible 改成 :focus，比较鼠标点击时的差异",
       "为错误输入增加 :invalid 与 :focus-visible 的组合样式",
       "检查按钮、链接、输入框是否都有清楚的键盘焦点"
+    ],
+    exerciseSolutions: [
+      "把 :focus-visible 改成 :focus 后，鼠标点击输入框或按钮时也会显示焦点样式。",
+      "可写 .focus-form input:invalid:focus-visible { border-color: #b9472f; outline-color: rgba(185,71,47,.25); }。",
+      "检查所有 button、a[href]、input、select、textarea 是否能用 Tab 到达，并且聚焦时有可见 outline。"
     ]
   },
   {
@@ -103,6 +149,25 @@ export const lessons2020 = [
       "Box Alignment 把 Grid、Flex 等布局中的对齐概念统一起来，减少不同布局模型之间的心智切换。",
       "place-items 是 align-items 和 justify-items 的简写，常用于 Grid 中快速居中项目。",
       "Flexbox 中 justify-content 沿主轴工作，align-items 沿交叉轴工作，轴向会随 flex-direction 改变。"
+    ],
+    valueReference: [
+      {
+        "name": "对齐属性",
+        "values": [
+      "justify-content：主轴或行内方向内容分布。",
+      "align-items：交叉轴项目对齐。",
+      "justify-items：行内方向项目对齐，Grid 中常用。",
+      "align-content：多行或多轨道整体分布。"
+        ]
+      },
+      {
+        "name": "简写",
+        "values": [
+      "place-items：align-items / justify-items。",
+      "place-content：align-content / justify-content。",
+      "place-self：align-self / justify-self。"
+        ]
+      }
     ],
     exampleHtml: `<div class="align-stage">
   <button>Center</button>
@@ -130,6 +195,11 @@ export const lessons2020 = [
       "把 place-items 拆成 align-items 和 justify-items",
       "改用 display: flex，并使用 justify-content 与 align-items 居中",
       "尝试 place-content: center，观察它和 place-items 的差异"
+    ],
+    exerciseSolutions: [
+      "把 place-items: center 拆成 align-items: center; justify-items: center;，在 Grid 中效果等价。",
+      "改成 display: flex 后，用 justify-content: center; align-items: center; 实现主轴和交叉轴居中。",
+      "place-content 控制多轨道/整体内容的分布，place-items 控制每个项目在自己网格区域里的对齐。"
     ]
   },
   {
@@ -141,6 +211,25 @@ export const lessons2020 = [
       "forced-colors: active 表示系统正在强制使用有限调色板，浏览器可能替换你写的背景和文字颜色。",
       "系统颜色如 ButtonText、ButtonFace、CanvasText 会映射到用户当前主题，比固定色值更可靠。",
       "状态不能只靠颜色差异表达。边框、轮廓、文字和图标形状都能帮助高对比度模式下识别状态。"
+    ],
+    valueReference: [
+      {
+        "name": "媒体查询",
+        "values": [
+      "forced-colors: active：系统正在强制颜色。",
+      "forced-colors: none：没有强制颜色。",
+      "prefers-contrast: more：用户偏好更高对比度。",
+      "prefers-contrast: less：用户偏好更低对比度。"
+        ]
+      },
+      {
+        "name": "系统颜色",
+        "values": [
+      "Canvas / CanvasText：页面背景和文字。",
+      "ButtonFace / ButtonText：按钮背景和文字。",
+      "Highlight / HighlightText：选中或强调内容。"
+        ]
+      }
     ],
     exampleHtml: `<button class="contrast-button">
   继续练习
@@ -176,6 +265,11 @@ export const lessons2020 = [
       "把透明边框改成可见边框，比较普通模式和强制颜色模式",
       "使用 Canvas、CanvasText、ButtonFace 等系统颜色",
       "检查仅靠背景色区分状态的组件是否还足够清楚"
+    ],
+    exerciseSolutions: [
+      "把 border: 2px solid transparent 改成可见颜色；在强制颜色模式中也要确保边界清楚。",
+      "在 @media (forced-colors: active) 中使用 background: ButtonFace; color: ButtonText; border-color: ButtonText;。",
+      "如果状态只靠背景色区分，补充 border、outline、文字或图标形状，保证高对比度下仍可识别。"
     ]
   }
 ];

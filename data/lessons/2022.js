@@ -9,6 +9,24 @@ export const lessons2022 = [
       "在同一来源和重要性下，层级顺序会先于选择器权重发挥作用，因此低权重工具类也能稳定覆盖组件层。",
       "常见分层是 reset、base、components、utilities，让大型样式表减少权重竞赛。"
     ],
+    valueReference: [
+      {
+        "name": "@layer 语法",
+        "values": [
+      "@layer base, components, utilities：声明层顺序。",
+      "@layer components { ... }：把规则放入指定层。",
+      "@import url(...) layer(name)：把导入样式放入层。"
+        ]
+      },
+      {
+        "name": "层级规则",
+        "values": [
+      "未分层样式通常比普通分层样式优先。",
+      "同层内仍比较权重和书写顺序。",
+      "后声明的层在普通声明中优先级更高。"
+        ]
+      }
+    ],
     exampleHtml: `<button class="btn utility">Layer Button</button>`,
     exampleCss: `@layer base, components, utilities;
 
@@ -38,6 +56,11 @@ export const lessons2022 = [
       "调换 components 与 utilities 的声明顺序，观察按钮颜色变化",
       "新增 theme 层，并把颜色变量放进去",
       "把一个高权重选择器改成低权重但层级更高的规则"
+    ],
+    exerciseSolutions: [
+      "调换 @layer 声明顺序，如 @layer base, utilities, components;，components 层会比 utilities 更晚、更优先。",
+      "新增 @layer theme，并把 :root 颜色变量放进去；组件层通过 var() 使用这些变量。",
+      "把高权重选择器改成普通类选择器，并放入更高优先级的 layer，减少 specificity 竞赛。"
     ]
   },
   {
@@ -49,6 +72,25 @@ export const lessons2022 = [
       "color-scheme 告诉浏览器页面支持浅色、深色或两者，浏览器会据此调整原生控件、表单和滚动条。",
       "它不是完整主题系统，只是声明能力。实际的背景、文字、边框仍需要你用变量或媒体查询定义。",
       "先建立语义色变量，再在深色模式中覆盖变量，比在每个组件里重复写颜色更可维护。"
+    ],
+    valueReference: [
+      {
+        "name": "color-scheme",
+        "values": [
+      "normal：不声明特殊主题支持。",
+      "light：支持浅色控件。",
+      "dark：支持深色控件。",
+      "light dark：同时支持浅色和深色。"
+        ]
+      },
+      {
+        "name": "相关能力",
+        "values": [
+      "prefers-color-scheme：读取用户主题偏好。",
+      "light-dark()：根据当前主题选择颜色。",
+      "语义变量：用 --surface、--text 等承接主题值。"
+        ]
+      }
     ],
     exampleHtml: `<section class="scheme-panel">
   <label>
@@ -80,6 +122,11 @@ export const lessons2022 = [
       "在深色主题类中覆盖 --surface 和 --text",
       "移除 color-scheme，观察输入框默认外观差异",
       "把颜色变量改成语义命名，例如 --surface、--text、--border"
+    ],
+    exerciseSolutions: [
+      "添加 .scheme-panel.dark { --surface: #111827; --text: #f9fafb; }，组件会通过变量切换深色。",
+      "移除 color-scheme 后，输入框、滚动条等原生控件可能仍按浏览器默认浅色渲染。",
+      "把具体颜色改成 --surface、--text、--border 等语义变量，组件内部只引用语义，不关心主题值。"
     ]
   },
   {
@@ -91,6 +138,24 @@ export const lessons2022 = [
       ":is() 可以把多个选择器分组，权重取参数中最高的那个。",
       ":where() 也能分组，但自身权重永远是 0，适合写基础样式和低权重默认值。",
       "增强版 :not() 可以接复杂选择器，适合排除禁用、当前项或特定状态。"
+    ],
+    valueReference: [
+      {
+        "name": "选择器函数",
+        "values": [
+      ":is(a, button)：匹配参数中任意选择器，权重取最高参数。",
+      ":where(...)：匹配逻辑同 :is，但权重为 0。",
+      ":not(...)：排除匹配参数的元素。"
+        ]
+      },
+      {
+        "name": "使用建议",
+        "values": [
+      ":is：减少重复选择器。",
+      ":where：写低权重默认样式。",
+      ":not：排除状态或属性，例如 :not([disabled])。"
+        ]
+      }
     ],
     exampleHtml: `<article class="selector-card">
   <h2>现代选择器</h2>
@@ -123,6 +188,11 @@ export const lessons2022 = [
       "把重复的 h2、p margin 规则改成 :where()",
       "比较 :is(h2, p) 和 :where(h2, p) 的权重差异",
       "使用 :not([aria-disabled='true']) 排除禁用链接"
+    ],
+    exerciseSolutions: [
+      "把 .selector-card h2, .selector-card p { margin: 0; } 改成 .selector-card :where(h2, p) { margin: 0; }。",
+      ":is(h2, p) 的权重取 h2/p 中最高者，:where(h2, p) 权重为 0，更容易被组件样式覆盖。",
+      "可写 .selector-card a:not([aria-disabled='true']) { ... }，只给非禁用链接添加交互样式。"
     ]
   },
   {
@@ -134,6 +204,26 @@ export const lessons2022 = [
       ":has() 让父元素根据内部是否存在某个匹配项来改变样式，例如表单字段含有 invalid input 时高亮外层。",
       "它不是简单的父选择器，而是关系选择器，可以表达后代、相邻和状态条件。",
       ":has() 很强大但要克制，避免用过宽的选择器在大范围 DOM 上做复杂匹配。"
+    ],
+    valueReference: [
+      {
+        "name": ":has() 用法",
+        "values": [
+      ".card:has(img)：包含图片的卡片。",
+      "label:has(input:checked)：内部输入被选中的标签。",
+      ".field:has(input:invalid)：内部输入无效的字段组。",
+      "article:has(> h2)：直接子元素包含 h2 的 article。"
+        ]
+      },
+      {
+        "name": "关系组合",
+        "values": [
+      "空格：后代关系。",
+      ">：直接子元素。",
+      "+：相邻兄弟。",
+      "~：后续兄弟。"
+        ]
+      }
     ],
     exampleHtml: `<label class="task-card">
   <input type="checkbox" checked />
@@ -160,6 +250,11 @@ export const lessons2022 = [
       "取消 checked，观察外层卡片样式如何变化",
       "使用 :has(input:focus-visible) 给卡片添加聚焦边框",
       "创建 .field:has(input:invalid) 的错误输入状态"
+    ],
+    exerciseSolutions: [
+      "移除 input 上的 checked 后，.task-card:has(input:checked) 不再匹配，外层高亮会消失。",
+      "新增 .task-card:has(input:focus-visible) { outline: 3px solid rgba(27,127,121,.25); }，聚焦内部输入时高亮外层。",
+      "创建 .field:has(input:invalid) { border-color: #b9472f; }，内部输入无效时字段组显示错误边框。"
     ]
   },
   {
@@ -171,6 +266,25 @@ export const lessons2022 = [
       "CSS 架构的目标是让样式来源清楚：哪些是 token，哪些是组件，哪些是一次性工具类。",
       "BEM 一类命名把块、元素、修饰状态写在类名里，能减少选择器依赖 DOM 层级。",
       "@layer 可以把架构意图交给浏览器级联系统执行，而不是靠不断提高选择器权重维持覆盖关系。"
+    ],
+    valueReference: [
+      {
+        "name": "分层",
+        "values": [
+      "tokens：颜色、间距、圆角等设计变量。",
+      "base：元素级默认样式。",
+      "components：组件样式。",
+      "utilities：工具类和小覆盖。"
+        ]
+      },
+      {
+        "name": "命名",
+        "values": [
+      "block：独立组件，例如 course-card。",
+      "element：组件内部元素，例如 course-card__title。",
+      "modifier：状态或变体，例如 course-card--featured。"
+        ]
+      }
     ],
     exampleHtml: `<article class="course-card course-card--featured">
   <h2 class="course-card__title">CSS 架构</h2>
@@ -213,6 +327,11 @@ export const lessons2022 = [
       "把组件状态写成 --featured 修饰类，而不是额外嵌套选择器",
       "把重复颜色和间距提取成 token 变量",
       "判断一个规则应该放进 tokens、components 还是 utilities 层"
+    ],
+    exerciseSolutions: [
+      "组件变体用 .course-card--featured 这类修饰类表达，而不是依赖 .sidebar .course-card h2 之类结构选择器。",
+      "把重复的颜色和间距提取到 :root 或 tokens 层，例如 --color-accent、--space-card。",
+      "设计变量放 tokens，组件外观放 components，单用途覆盖如 .u-muted 放 utilities。"
     ]
   }
 ];

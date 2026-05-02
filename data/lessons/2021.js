@@ -9,6 +9,25 @@ export const lessons2021 = [
       "Flex gap 支持换行后的行距和列距统一管理，适合按钮组、标签组和工具栏。",
       "当组件间距属于布局关系时优先放在父容器 gap 中；当间距属于元素自身外部关系时再考虑 margin。"
     ],
+    valueReference: [
+      {
+        "name": "gap",
+        "values": [
+      "gap: 12px：行距和列距都为 12px。",
+      "gap: 8px 16px：行距 8px，列距 16px。",
+      "row-gap：行间距。",
+      "column-gap：列间距。"
+        ]
+      },
+      {
+        "name": "适用布局",
+        "values": [
+      "Grid：网格轨道间距。",
+      "Flex：弹性项目间距，包括换行后的行距。",
+      "Multi-column：多列布局列间距。"
+        ]
+      }
+    ],
     exampleHtml: `<div class="action-row">
   <button>保存</button>
   <button>预览</button>
@@ -34,6 +53,11 @@ export const lessons2021 = [
       "把行间距和列间距设置成不同值",
       "移除按钮上的 margin，改由容器 gap 控制",
       "让按钮组换行后仍保持一致间距"
+    ],
+    exerciseSolutions: [
+      "把 gap: 10px 14px 改成例如 gap: 8px 20px；第一个值是行距，第二个值是列距。",
+      "删除子按钮 margin，用父容器 .action-row { gap: ... } 统一控制按钮之间的间距。",
+      "保留 flex-wrap: wrap 和 gap；按钮换行后，行与行之间也会保持一致的 row-gap。"
     ]
   },
   {
@@ -45,6 +69,24 @@ export const lessons2021 = [
       "accent-color 改变复选框、单选框、range 等原生控件的强调色，同时保留浏览器可访问性和交互行为。",
       "它继承自父元素，所以可以在 fieldset 或表单容器上统一设置。",
       "完全自定义控件成本更高，需要处理键盘、焦点、状态和辅助技术语义；accent-color 是低成本优先方案。"
+    ],
+    valueReference: [
+      {
+        "name": "accent-color",
+        "values": [
+      "auto：浏览器默认强调色。",
+      "任意颜色值：例如 #1b7f79、oklch(...)、var(--accent)。"
+        ]
+      },
+      {
+        "name": "常影响的控件",
+        "values": [
+      "checkbox：勾选强调色。",
+      "radio：选中强调色。",
+      "range：滑块或轨道强调色。",
+      "progress：进度强调色，视浏览器而定。"
+        ]
+      }
     ],
     exampleHtml: `<fieldset class="accent-form">
   <label><input type="checkbox" checked> 接收练习提醒</label>
@@ -73,6 +115,11 @@ export const lessons2021 = [
       "把 accent-color 改成品牌色变量",
       "比较 accent-color 和完全自定义 checkbox 的维护成本",
       "为不同 fieldset 设置不同 accent-color，观察控件继承"
+    ],
+    exerciseSolutions: [
+      "把 accent-color: #1b7f79 改成 accent-color: var(--accent);，再在父容器或 :root 中定义 --accent。",
+      "accent-color 保留原生键盘、焦点和辅助技术行为；完全自定义 checkbox 需要自己补齐这些交互。",
+      "给不同 fieldset 写不同 accent-color，内部 checkbox、radio、range 会继承各自容器的强调色。"
     ]
   },
   {
@@ -84,6 +131,23 @@ export const lessons2021 = [
       "scrollbar-gutter: stable 会为滚动条预留空间，避免内容从不滚动变成可滚动时横向跳动。",
       "scrollbar-color 可以调整滚动条颜色，但不同浏览器支持和表现不完全一致。",
       "稳定滚动条空间适合侧边栏、代码块和固定宽度面板。全页面使用时要注意视觉留白。"
+    ],
+    valueReference: [
+      {
+        "name": "scrollbar-gutter",
+        "values": [
+      "auto：默认行为。",
+      "stable：即使暂时不需要滚动条也预留空间。",
+      "stable both-edges：两侧都预留空间，保持居中视觉更稳定。"
+        ]
+      },
+      {
+        "name": "滚动条样式",
+        "values": [
+      "scrollbar-color：设置滑块色和轨道色。",
+      "scrollbar-width：auto、thin、none，主要在 Firefox 中使用。"
+        ]
+      }
     ],
     exampleHtml: `<div class="stable-scroll">
   <p>内容可能变长，也可能刚好不需要滚动条。</p>
@@ -109,6 +173,11 @@ export const lessons2021 = [
       "移除 scrollbar-gutter，比较滚动条出现时内容宽度是否变化",
       "尝试 scrollbar-gutter: stable both-edges",
       "给一个侧边栏列表添加稳定滚动条空间"
+    ],
+    exerciseSolutions: [
+      "移除 scrollbar-gutter 后，当内容从不溢出变成溢出时，滚动条出现可能挤压内容宽度。",
+      "改成 scrollbar-gutter: stable both-edges; 会在两侧都预留空间，视觉上更居中稳定。",
+      "给侧边栏列表设置 max-height、overflow: auto 和 scrollbar-gutter: stable，可减少列表内容跳动。"
     ]
   }
 ];

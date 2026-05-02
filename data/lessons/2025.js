@@ -9,6 +9,26 @@ export const lessons2025 = [
       "anchor-name 给触发器命名，position-anchor 指定浮层参考哪个锚点，position-area 描述放在锚点哪一侧。",
       "它减少了手写 JS 测量和定位，但仍要考虑溢出、可访问性和不支持浏览器的回退方案。"
     ],
+    valueReference: [
+      {
+        "name": "锚点属性",
+        "values": [
+      "anchor-name：给锚点元素命名。",
+      "position-anchor：指定浮层参考哪个锚点。",
+      "position-area：指定浮层位于锚点哪个区域。",
+      "anchor()：读取锚点边缘位置。"
+        ]
+      },
+      {
+        "name": "position-area 常见值",
+        "values": [
+      "top / bottom / left / right：位于对应方向。",
+      "center：中心对齐。",
+      "top center：锚点上方居中。",
+      "bottom center：锚点下方居中。"
+        ]
+      }
+    ],
     exampleHtml: `<div class="anchor-demo">
   <button class="anchor-button">按钮</button>
   <div class="tooltip">提示内容</div>
@@ -43,6 +63,11 @@ export const lessons2025 = [
       "把 position-area 改成 top center，观察提示层位置",
       "为 tooltip 添加最大宽度和阴影，让它更像真实弹层",
       "思考这个能力能替代哪些手写 JS 定位逻辑"
+    ],
+    exerciseSolutions: [
+      "把 position-area: bottom center 改成 top center，提示层会从按钮下方移动到上方居中。",
+      "给 .tooltip 添加 max-width: 220px; box-shadow: 0 16px 32px rgba(...);，视觉上更像真实弹层。",
+      "它可以替代一部分 getBoundingClientRect 测量、滚动监听和手动 top/left 定位逻辑。"
     ]
   },
   {
@@ -54,6 +79,25 @@ export const lessons2025 = [
       "popover 属性让元素进入浏览器管理的 top layer，避免普通 z-index 层级里弹层被盖住。",
       "popovertarget 可以用按钮声明式打开弹层，:popover-open 用于设置打开状态样式。",
       "Popover 适合轻量弹层和菜单。真正需要阻止背景交互的模态场景要仔细处理焦点、关闭和语义。"
+    ],
+    valueReference: [
+      {
+        "name": "Popover API",
+        "values": [
+      "popover：声明元素为 popover。",
+      "popovertarget：按钮关联目标 popover。",
+      "popovertargetaction：toggle、show、hide。",
+      ":popover-open：popover 打开时匹配。"
+        ]
+      },
+      {
+        "name": "弹层相关",
+        "values": [
+      "top layer：浏览器管理的顶层显示区域。",
+      "::backdrop：部分弹层的背景层。",
+      "dialog 和 popover：用途相近但语义和交互规则不同。"
+        ]
+      }
     ],
     exampleHtml: `<button popovertarget="menu" class="menu-button">打开菜单</button>
 <div id="menu" popover class="popover-menu">
@@ -99,6 +143,11 @@ export const lessons2025 = [
       "给弹层增加 ::backdrop 背景，比较菜单和模态层的差异",
       "把 popover 菜单和 Anchor Positioning 组合，让菜单靠近按钮",
       "为 :popover-open 增加入场动画，并注意离散属性过渡"
+    ],
+    exerciseSolutions: [
+      "为 popover 添加 .popover-menu::backdrop { background: rgba(15,23,42,.18); }，对比菜单和模态遮罩体验。",
+      "给按钮设置 anchor-name，并给 popover 设置 position-anchor 与 position-area，就能让菜单靠近触发按钮。",
+      "为 .popover-menu:popover-open 添加 @starting-style 和 opacity/transform 过渡，同时用 allow-discrete 处理显示切换。"
     ]
   },
   {
@@ -110,6 +159,25 @@ export const lessons2025 = [
       "View Transitions 会捕获旧视图和新视图的快照，然后用伪元素控制它们之间的动画。",
       "view-transition-name 用来标记共享元素，让浏览器知道哪个旧元素要和哪个新元素连接。",
       "它适合页面切换和状态切换，但要保证没有动画时内容切换仍然清楚可用。"
+    ],
+    valueReference: [
+      {
+        "name": "核心语法",
+        "values": [
+      "view-transition-name：标记参与过渡的元素。",
+      "::view-transition-old(name)：旧视图快照。",
+      "::view-transition-new(name)：新视图快照。",
+      "::view-transition-group(name)：过渡组。"
+        ]
+      },
+      {
+        "name": "常见控制",
+        "values": [
+      "animation-duration：控制过渡时长。",
+      "animation-timing-function：控制速度曲线。",
+      "view-transition-name: none：排除元素。"
+        ]
+      }
     ],
     exampleHtml: `<article class="view-card">
   <div class="view-cover">CSS</div>
@@ -144,6 +212,11 @@ export const lessons2025 = [
       "给标题也添加 view-transition-name，并比较多个元素同时过渡的效果",
       "调整 ::view-transition-new 的动画时长，让新视图更慢出现",
       "思考列表到详情页的共享元素过渡应该标记哪些节点"
+    ],
+    exerciseSolutions: [
+      "给标题加 view-transition-name: course-title;，再为 ::view-transition-old/new(course-title) 设置动画。",
+      "把 ::view-transition-new(course-cover) 的 animation-duration 改成 600ms，新视图快照会更慢出现。",
+      "列表到详情页通常标记封面、标题或主操作按钮；不要给大量重复元素使用同一个 transition name。"
     ]
   },
   {
@@ -155,6 +228,24 @@ export const lessons2025 = [
       "content-visibility: auto 允许浏览器跳过屏幕外内容的布局和绘制，等接近视口时再处理。",
       "contain-intrinsic-size 给被跳过内容一个估算尺寸，避免滚动条高度大幅跳动。",
       "它适合长列表、长文章和折叠面板，但不应滥用于需要立即测量尺寸或参与布局计算的内容。"
+    ],
+    valueReference: [
+      {
+        "name": "content-visibility",
+        "values": [
+      "visible：正常渲染。",
+      "hidden：跳过内容渲染且不可见。",
+      "auto：浏览器可跳过屏幕外内容，接近视口再渲染。"
+        ]
+      },
+      {
+        "name": "相关性能属性",
+        "values": [
+      "contain：声明布局、绘制、样式等隔离边界。",
+      "contain-intrinsic-size：为跳过渲染内容提供估算尺寸。",
+      "will-change：提示未来会变化的属性，需谨慎使用。"
+        ]
+      }
     ],
     exampleHtml: `<section class="long-list">
   <article>第一段内容</article>
@@ -180,6 +271,11 @@ export const lessons2025 = [
       "把 contain-intrinsic-size 改得过小，观察滚动高度估算的影响",
       "在长列表中只给屏幕外重内容使用 content-visibility",
       "比较 contain: layout paint style 和不设置 contain 的行为差异"
+    ],
+    exerciseSolutions: [
+      "把 contain-intrinsic-size: 120px 改成 40px，浏览器估算高度偏小，滚动条可能在内容出现时跳动。",
+      "只给长列表中重内容卡片设置 content-visibility: auto；首屏关键内容不建议跳过渲染。",
+      "contain: layout paint style 会限制布局、绘制和样式影响范围；不设置 contain 时元素更可能影响外部布局计算。"
     ]
   }
 ];

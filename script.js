@@ -141,6 +141,33 @@ function renderCoreExplanation(lesson) {
     <ul class="core-explanation">
       ${points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
     </ul>
+    ${renderValueReference(lesson)}
+  `;
+}
+
+function renderValueReference(lesson) {
+  if (!Array.isArray(lesson.valueReference) || lesson.valueReference.length === 0) {
+    return "";
+  }
+
+  return `
+    <div class="value-reference">
+      <h4>常用取值 / 关键语法</h4>
+      <dl>
+        ${lesson.valueReference
+          .map((group) => `
+            <div class="value-reference-group">
+              <dt>${escapeHtml(group.name)}</dt>
+              <dd>
+                <ul>
+                  ${group.values.map((value) => `<li>${escapeHtml(value)}</li>`).join("")}
+                </ul>
+              </dd>
+            </div>
+          `)
+          .join("")}
+      </dl>
+    </div>
   `;
 }
 
@@ -167,9 +194,11 @@ function renderPracticeTab(lesson) {
       </div>
       <div id="solutionPanel" class="solution-panel" hidden>
         <div class="solution-header">
-          <h4>参考答案</h4>
-          <button type="button" id="applySolutionButton" class="secondary-button">应用到编辑器</button>
+          <h4>练习答案</h4>
+          <button type="button" id="applySolutionButton" class="secondary-button">应用参考 CSS</button>
         </div>
+        ${renderExerciseSolutions(lesson)}
+        <h5 class="solution-code-title">参考 CSS</h5>
         <pre class="code-block"><code>${escapeHtml(getSolutionCss(lesson))}</code></pre>
       </div>
     </section>
@@ -208,6 +237,23 @@ function renderPracticeTab(lesson) {
     });
     practiceEditor.focus();
   });
+}
+
+function renderExerciseSolutions(lesson) {
+  const solutions = getExerciseSolutions(lesson);
+
+  return `
+    <ol class="exercise-solutions">
+      ${solutions
+        .map((solution, index) => `
+          <li>
+            <strong>${escapeHtml(lesson.exercise[index] ?? `练习 ${index + 1}`)}</strong>
+            <p>${escapeHtml(solution)}</p>
+          </li>
+        `)
+        .join("")}
+    </ol>
+  `;
 }
 
 function renderReviewTab(lesson) {
@@ -383,6 +429,14 @@ ${lesson.exercise.map((item) => `- ${item}`).join("\n")}
 
 function getSolutionCss(lesson) {
   return lesson.solutionCss ?? lesson.exampleCss;
+}
+
+function getExerciseSolutions(lesson) {
+  if (Array.isArray(lesson.exerciseSolutions) && lesson.exerciseSolutions.length === lesson.exercise.length) {
+    return lesson.exerciseSolutions;
+  }
+
+  return lesson.exercise.map((item) => `参考做法：围绕“${item}”修改左侧 CSS，再对照预览观察变化。`);
 }
 
 function setPracticeEditorValue(lesson, editor, preview, value, options = {}) {

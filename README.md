@@ -50,5 +50,4 @@ npm run build
 - `exampleHtml`
 - `exampleCss`
 - `exercise`
-
-如果某节课需要和示例不同的参考答案，可以额外添加 `solutionCss`；未提供时，练习区会使用 `exampleCss` 作为答案。
+- `exerciseSolutions`

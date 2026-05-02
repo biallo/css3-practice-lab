@@ -9,6 +9,24 @@ export const lessons2011 = [
       "断点不一定等于设备尺寸，更应该根据内容什么时候变挤来决定。布局断点、字体和间距可以分别调整。",
       "媒体查询也能响应用户偏好，例如 prefers-reduced-motion，用来减少动画而不是只处理屏幕宽度。"
     ],
+    valueReference: [
+      {
+        "name": "断点写法",
+        "values": [
+      "@media (min-width: 640px)：视口大于等于 640px 时生效，适合移动优先增强。",
+      "@media (max-width: 720px)：视口小于等于 720px 时生效，适合补充小屏覆盖。",
+      "@media (orientation: landscape)：横屏时生效。"
+        ]
+      },
+      {
+        "name": "用户偏好查询",
+        "values": [
+      "prefers-reduced-motion：用户是否希望减少动画。",
+      "prefers-color-scheme：用户偏好浅色或深色主题。",
+      "prefers-contrast：用户是否偏好更高或更低对比度。"
+        ]
+      }
+    ],
     exampleHtml: `<div class="responsive-grid">
   <div>导航</div>
   <div>内容</div>
@@ -36,6 +54,11 @@ export const lessons2011 = [
       "把断点从 640px 改为 800px，观察布局切换时机",
       "增加一个在小屏隐藏工具栏的规则",
       "使用 prefers-reduced-motion 关闭后续动画效果"
+    ],
+    exerciseSolutions: [
+      "把 @media (min-width: 640px) 改成 @media (min-width: 800px)，三列布局会等到视口至少 800px 才启用。",
+      "在小屏基础样式中可给工具栏项加 .responsive-grid > div:last-child { display: none; }，再在大屏媒体查询里恢复 display: block。",
+      "添加 @media (prefers-reduced-motion: reduce) { * { animation: none; transition: none; scroll-behavior: auto; } }，用于关闭非必要动效。"
     ]
   },
   {
@@ -47,6 +70,24 @@ export const lessons2011 = [
       "打印环境和屏幕环境不同，交互按钮、导航、阴影和固定定位常常会干扰纸张阅读，需要在 @media print 中隐藏或重置。",
       "@page 控制纸张页边距，break-inside: avoid 可以尽量避免卡片、表格行或代码块被分页切断。",
       "print-color-adjust: exact 可以请求浏览器保留颜色，但打印仍受浏览器和用户设置影响，所以内容结构要先保证清楚。"
+    ],
+    valueReference: [
+      {
+        "name": "打印媒体",
+        "values": [
+      "@media print：只在打印或导出 PDF 时应用。",
+      "@page：控制页面纸张区域，例如 margin。",
+      "print-color-adjust: exact：请求浏览器尽量保留背景色和颜色。"
+        ]
+      },
+      {
+        "name": "分页控制",
+        "values": [
+      "break-before：元素前是否分页。",
+      "break-after：元素后是否分页。",
+      "break-inside: avoid：尽量避免元素内部被分页切断。"
+        ]
+      }
     ],
     exampleHtml: `<article class="print-report">
   <h2>课程报告</h2>
@@ -82,6 +123,11 @@ export const lessons2011 = [
       "隐藏导航、按钮和阴影，只保留正文内容",
       "为长卡片添加 break-inside: avoid，减少分页切断",
       "设置 @page margin，观察 PDF 边距变化"
+    ],
+    exerciseSolutions: [
+      "在 @media print 中隐藏 nav、button 等交互元素，并把 box-shadow 设为 none，打印时只保留正文。",
+      "给不希望被拆开的卡片或报告块设置 break-inside: avoid，浏览器会尽量避免分页切断它。",
+      "在 @page 中设置 margin: 18mm 或其他尺寸，打印预览/PDF 的纸张边距会随之变化。"
     ]
   }
 ];
