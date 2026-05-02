@@ -114,7 +114,7 @@ function renderExplainTab(lesson) {
   lessonContent.innerHTML = `
     <section class="lesson-section">
       <h3>核心讲解</h3>
-      <p>${lesson.summary}</p>
+      ${renderCoreExplanation(lesson)}
     </section>
     <section class="lesson-section">
       <h3>参考示例</h3>
@@ -127,6 +127,19 @@ function renderExplainTab(lesson) {
   `;
 
   document.getElementById("examplePreview").srcdoc = createExampleDocument(lesson);
+}
+
+function renderCoreExplanation(lesson) {
+  const points = Array.isArray(lesson.coreExplanation) && lesson.coreExplanation.length > 0
+    ? lesson.coreExplanation
+    : [lesson.summary];
+
+  return `
+    <p class="lesson-summary">${escapeHtml(lesson.summary)}</p>
+    <ul class="core-explanation">
+      ${points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
+    </ul>
+  `;
 }
 
 function renderPracticeTab(lesson) {

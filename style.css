@@ -333,6 +333,23 @@ select {
   line-height: 1.7;
 }
 
+.lesson-summary {
+  font-weight: 800;
+}
+
+.core-explanation {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 0;
+  padding-left: 20px;
+  color: #344054;
+  line-height: 1.75;
+}
+
+.core-explanation li {
+  padding-left: 4px;
+}
+
 .lesson-section:first-child,
 .lesson-section:nth-child(2),
 .exercise-card,
