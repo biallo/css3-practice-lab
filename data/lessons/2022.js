@@ -261,20 +261,20 @@ export const lessons2022 = [
     year: "2022",
     title: "2022 - CSS 架构与命名组织",
     description: "随着样式规模变大，命名、分层、组件边界和 design tokens 会比单个属性更影响可维护性。",
-    summary: "结合 BEM 风格命名、语义 token、@layer 和工具类，组织可扩展的组件样式。",
+    summary: "结合 BEM 风格命名、语义 token、组件边界和工具类，组织可扩展的组件样式。",
     coreExplanation: [
       "CSS 架构的目标是让样式来源清楚：哪些是 token，哪些是组件，哪些是一次性工具类。",
       "BEM 一类命名把块、元素、修饰状态写在类名里，能减少选择器依赖 DOM 层级。",
-      "@layer 可以把架构意图交给浏览器级联系统执行，而不是靠不断提高选择器权重维持覆盖关系。"
+      "组件样式应尽量依赖自身类名和语义变量，而不是依赖页面位置或深层 DOM 结构。"
     ],
     valueReference: [
       {
-        "name": "分层",
+        "name": "样式职责",
         "values": [
       "tokens：颜色、间距、圆角等设计变量。",
-      "base：元素级默认样式。",
       "components：组件样式。",
-      "utilities：工具类和小覆盖。"
+      "utilities：单用途工具类和少量覆盖。",
+      "state：组件状态或变体，例如 selected、featured。"
         ]
       },
       {
@@ -290,48 +290,41 @@ export const lessons2022 = [
   <h2 class="course-card__title">CSS 架构</h2>
   <p class="course-card__meta">组件、状态和工具类分工清楚。</p>
 </article>`,
-    exampleCss: `@layer tokens, components, utilities;
-
-@layer tokens {
-  :root {
-    --color-surface: #ffffff;
-    --color-accent: #1b7f79;
-    --space-card: 18px;
-  }
+    exampleCss: `:root {
+  --color-surface: #ffffff;
+  --color-accent: #1b7f79;
+  --space-card: 18px;
 }
 
-@layer components {
-  .course-card {
-    padding: var(--space-card);
-    border: 1px solid #dce3ed;
-    border-radius: 12px;
-    background: var(--color-surface);
-  }
-
-  .course-card--featured {
-    border-color: var(--color-accent);
-  }
-
-  .course-card__title {
-    margin: 0 0 8px;
-  }
+.course-card {
+  padding: var(--space-card);
+  border: 1px solid #dce3ed;
+  border-radius: 12px;
+  background: var(--color-surface);
 }
 
-@layer utilities {
-  .u-muted {
-    color: #667085;
-  }
+.course-card--featured {
+  border-color: var(--color-accent);
+}
+
+.course-card__title {
+  margin: 0 0 8px;
+}
+
+.course-card__meta {
+  margin: 0;
+  color: #667085;
 }
 `,
     exercise: [
       "把组件状态写成 --featured 修饰类，而不是额外嵌套选择器",
       "把重复颜色和间距提取成 token 变量",
-      "判断一个规则应该放进 tokens、components 还是 utilities 层"
+      "把依赖结构的选择器改成组件自身的 element 类"
     ],
     exerciseSolutions: [
       "组件变体用 .course-card--featured 这类修饰类表达，而不是依赖 .sidebar .course-card h2 之类结构选择器。",
-      "把重复的颜色和间距提取到 :root 或 tokens 层，例如 --color-accent、--space-card。",
-      "设计变量放 tokens，组件外观放 components，单用途覆盖如 .u-muted 放 utilities。"
+      "把重复的颜色和间距提取到 :root 或专门的 tokens 变量区，例如 --color-accent、--space-card。",
+      "把 .course-card h2 或 .course-card p 改成 .course-card__title、.course-card__meta，组件内部结构变化时样式更稳定。"
     ]
   }
 ];
