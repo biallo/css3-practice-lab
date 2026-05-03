@@ -11,6 +11,7 @@ export function createPreviewDocument(html, css) {
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
+  <base href="about:srcdoc">
   <style>
     * {
       box-sizing: border-box;
