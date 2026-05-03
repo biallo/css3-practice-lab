@@ -7,6 +7,7 @@ export const lessons2016 = [
     coreExplanation: [
       "object-fit 控制 replaced element 的内容如何填充盒子，例如 img、video。cover 会裁切填满，contain 会完整显示但可能留白。",
       "object-position 决定裁切时保留哪个焦点位置，适合头像、封面和商品图。",
+      "aspect-ratio 给媒体元素的布局盒子指定宽高比。这里的 16 / 9 先让图片区域保持横向封面比例，再由 object-fit 决定图片内容如何填满这个盒子。",
       "相比把图片当背景图，img 保留了 alt、懒加载和语义，通常更适合真实内容图片。"
     ],
     valueReference: [
@@ -26,6 +27,14 @@ export const lessons2016 = [
       "center：默认居中。",
       "left top：保留左上焦点。",
       "50% 30%：用百分比精确控制焦点。"
+        ]
+      },
+      {
+        "name": "aspect-ratio",
+        "values": [
+      "16 / 9：常见横向封面或视频比例。",
+      "1 / 1：正方形，适合头像、缩略图。",
+      "4 / 3：传统图片或内容卡片比例。"
         ]
       }
     ],
