@@ -3,11 +3,11 @@ export const lessons2016 = [
     year: "2016",
     title: "2016 - object-fit 与媒体裁切",
     description: "object-fit 让图片和视频像背景图一样裁切，同时保留语义化媒体元素。",
-    summary: "使用 object-fit: cover、object-position 和 aspect-ratio 构建稳定的封面、头像和缩略图。",
+    summary: "使用 object-fit: cover、object-position 和固定媒体盒子构建封面、头像和缩略图。",
     coreExplanation: [
       "object-fit 控制 replaced element 的内容如何填充盒子，例如 img、video。cover 会裁切填满，contain 会完整显示但可能留白。",
       "object-position 决定裁切时保留哪个焦点位置，适合头像、封面和商品图。",
-      "aspect-ratio 给媒体元素的布局盒子指定宽高比。这里的 16 / 9 先让图片区域保持横向封面比例，再由 object-fit 决定图片内容如何填满这个盒子。",
+      "要让 object-fit 生效，需要先给媒体元素一个明确的显示盒子，例如 width 配合 height，图片内容再按规则填充这个盒子。",
       "相比把图片当背景图，img 保留了 alt、懒加载和语义，通常更适合真实内容图片。"
     ],
     valueReference: [
@@ -28,14 +28,6 @@ export const lessons2016 = [
       "left top：保留左上焦点。",
       "50% 30%：用百分比精确控制焦点。"
         ]
-      },
-      {
-        "name": "aspect-ratio",
-        "values": [
-      "16 / 9：常见横向封面或视频比例。",
-      "1 / 1：正方形，适合头像、缩略图。",
-      "4 / 3：传统图片或内容卡片比例。"
-        ]
       }
     ],
     exampleHtml: `<figure class="cover-card">
@@ -50,7 +42,7 @@ export const lessons2016 = [
 .cover-card img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 200px;
   border-radius: 12px;
   object-fit: cover;
   object-position: center;
@@ -64,12 +56,12 @@ export const lessons2016 = [
     exercise: [
       "把 object-fit 改成 contain，比较留白和裁切差异",
       "调整 object-position 到 left top，观察焦点位置",
-      "用同样方法制作一个正方形头像裁切"
+      "用固定宽高制作一个正方形头像裁切"
     ],
     exerciseSolutions: [
-      "把 object-fit: cover 改成 contain，图片会完整显示，但 16:9 盒子内可能出现留白。",
+      "把 object-fit: cover 改成 contain，图片会完整显示，但固定高度的盒子内可能出现留白。",
       "把 object-position: center 改成 left top，裁切时会优先保留左上区域。",
-      "把 aspect-ratio 改成 1 / 1，并保持 object-fit: cover，就能得到正方形头像裁切。"
+      "把图片设置为 width: 160px; height: 160px; border-radius: 50%; 并保持 object-fit: cover，就能得到头像裁切。"
     ]
   },
   {
