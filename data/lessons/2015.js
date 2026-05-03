@@ -2,12 +2,12 @@ export const lessons2015 = [
   {
     year: "2015",
     title: "2015 - calc 与现代长度单位",
-    description: "calc()、视口单位和 clamp() 让尺寸可以在固定值和弹性值之间组合。",
-    summary: "使用 calc、min、max、clamp、vw 和 rem 写出更稳定的响应式尺寸。",
+    description: "calc() 让不同长度单位可以在同一个属性中参与计算，适合处理固定间距和弹性空间的组合。",
+    summary: "使用 calc() 混合百分比、px、rem、vw 和 ch，理解不同长度单位的参考对象。",
     coreExplanation: [
       "calc() 可以混合不同单位，例如百分比减固定间距。计算发生在浏览器布局阶段。",
       "rem 参考根字号，vw 参考视口宽度，百分比通常参考包含块。理解参考对象才能预测最终尺寸。",
-      "calc() 解决的是组合计算，min()、max()、clamp() 解决的是范围约束，它们经常一起使用。"
+      "calc() 解决的是组合计算，例如宽度减去侧边栏、间距叠加视口单位、文本行宽加减固定补偿。范围约束会在下一课专门处理。"
     ],
     valueReference: [
       {
@@ -30,12 +30,13 @@ export const lessons2015 = [
       }
     ],
     exampleHtml: `<div class="fluid-panel">
-  <h2>Fluid Size</h2>
-  <p>宽度和字体随容器变化，但仍有上下限。</p>
+  <h2>Calculated Size</h2>
+  <p>宽度、内边距和文字尺寸由不同单位组合计算。</p>
 </div>`,
     exampleCss: `.fluid-panel {
-  width: min(100%, calc(320px + 12vw));
-  padding: clamp(16px, 4vw, 32px);
+  width: calc(100% - 32px);
+  max-width: 42rem;
+  padding: calc(1rem + 1vw);
   border-radius: 16px;
   background: #ffffff;
   border: 1px solid #dce3ed;
@@ -43,7 +44,7 @@ export const lessons2015 = [
 
 .fluid-panel h2 {
   margin: 0 0 8px;
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-size: calc(1.2rem + 0.8vw);
 }
 
 .fluid-panel p {
@@ -52,14 +53,14 @@ export const lessons2015 = [
 }
 `,
     exercise: [
-      "把 padding 的最小值改成 12px，观察小屏间距",
-      "使用 max() 保证按钮至少 44px 高",
-      "用 clamp() 给标题设置一个不会过大也不会过小的字号"
+      "把 width 中减去的 32px 改成 48px，观察可用宽度变化",
+      "把 padding 改成 rem 和 vw 的不同组合",
+      "使用 calc() 给标题字号增加一个固定基础值和视口增量"
     ],
     exerciseSolutions: [
-      "把 padding: clamp(16px, 4vw, 32px) 改成 clamp(12px, 4vw, 32px)，小屏最小内边距会降到 12px。",
-      "给按钮写 min-height: max(44px, 2.75rem);，能保证触控高度不低于 44px。",
-      "例如 font-size: clamp(1.25rem, 3vw, 2rem);，标题会随视口变化但不会超过上下限。"
+      "把 width: calc(100% - 32px) 改成 calc(100% - 48px)，元素会在包含块内留下更多水平空间。",
+      "例如 padding: calc(0.75rem + 2vw); 会把根字号相关的基础间距和视口相关的弹性间距相加。",
+      "例如 font-size: calc(1rem + 1vw);，标题会以 1rem 为基础，再随视口宽度增加。"
     ]
   },
   {

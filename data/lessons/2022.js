@@ -67,11 +67,11 @@ export const lessons2022 = [
     year: "2022",
     title: "2022 - color-scheme 基础主题适配",
     description: "color-scheme 告诉浏览器页面支持哪些主题，让表单、滚动条和默认控件自动匹配浅色或深色环境。",
-    summary: "使用 color-scheme 配合语义颜色变量，为后续深色模式和 light-dark() 打基础。",
+    summary: "使用 color-scheme 声明页面支持的主题，让原生控件、滚动条和浏览器默认 UI 匹配当前环境。",
     coreExplanation: [
       "color-scheme 告诉浏览器页面支持浅色、深色或两者，浏览器会据此调整原生控件、表单和滚动条。",
-      "它不是完整主题系统，只是声明能力。实际的背景、文字、边框仍需要你用变量或媒体查询定义。",
-      "先建立语义色变量，再在深色模式中覆盖变量，比在每个组件里重复写颜色更可维护。"
+      "它不是完整主题系统，只是声明能力。实际的背景、文字和边框仍需要你提供合适的基础颜色。",
+      "适合先用在包含表单、滚动区域或浏览器默认控件的页面上，避免控件在深色环境里仍保持突兀的浅色外观。"
     ],
     valueReference: [
       {
@@ -87,8 +87,8 @@ export const lessons2022 = [
         "name": "相关能力",
         "values": [
       "prefers-color-scheme：读取用户主题偏好。",
-      "light-dark()：根据当前主题选择颜色。",
-      "语义变量：用 --surface、--text 等承接主题值。"
+      "原生表单控件：输入框、选择框、按钮等会参考 color-scheme。",
+      "滚动条和默认画布：浏览器可能根据声明调整默认外观。"
         ]
       }
     ],
@@ -100,12 +100,10 @@ export const lessons2022 = [
 </section>`,
     exampleCss: `.scheme-panel {
   color-scheme: light dark;
-  --surface: #ffffff;
-  --text: #1f2937;
   padding: 18px;
   border-radius: 12px;
-  background: var(--surface);
-  color: var(--text);
+  background: Canvas;
+  color: CanvasText;
 }
 
 .scheme-panel input {
@@ -119,14 +117,14 @@ export const lessons2022 = [
 }
 `,
     exercise: [
-      "在深色主题类中覆盖 --surface 和 --text",
+      "把 color-scheme 改成 dark，观察输入框默认外观",
       "移除 color-scheme，观察输入框默认外观差异",
-      "把颜色变量改成语义命名，例如 --surface、--text、--border"
+      "把 background 和 color 改成系统颜色 Canvas 与 CanvasText"
     ],
     exerciseSolutions: [
-      "添加 .scheme-panel.dark { --surface: #111827; --text: #f9fafb; }，组件会通过变量切换深色。",
+      "把 color-scheme: light dark 改成 dark 后，浏览器会按深色能力渲染支持的原生控件。",
       "移除 color-scheme 后，输入框、滚动条等原生控件可能仍按浏览器默认浅色渲染。",
-      "把具体颜色改成 --surface、--text、--border 等语义变量，组件内部只引用语义，不关心主题值。"
+      "写 background: Canvas; color: CanvasText; 可以让面板使用当前系统画布和文字颜色。"
     ]
   },
   {

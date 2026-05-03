@@ -2,12 +2,12 @@ export const lessons2011 = [
   {
     year: "2011",
     title: "2011 - 媒体查询与响应式布局",
-    description: "Media Queries 让样式可以根据屏幕宽度、方向和用户偏好进行响应。",
-    summary: "使用 max-width、min-width 和 prefers-reduced-motion 建立移动优先的响应式规则。",
+    description: "Media Queries 让样式可以根据屏幕宽度、高度和方向进行响应。",
+    summary: "使用 max-width、min-width 和 orientation 建立移动优先的响应式布局规则。",
     coreExplanation: [
       "媒体查询是在条件满足时才应用的一组样式。移动优先通常先写小屏基础样式，再用 min-width 为大屏增强。",
       "断点不一定等于设备尺寸，更应该根据内容什么时候变挤来决定。布局断点、字体和间距可以分别调整。",
-      "媒体查询也能响应用户偏好，例如 prefers-reduced-motion，用来减少动画而不是只处理屏幕宽度。"
+      "除了宽度断点，媒体查询也能根据横竖屏和视口高度调整布局，但基础内容应先在小屏单列中保持可用。"
     ],
     valueReference: [
       {
@@ -19,11 +19,11 @@ export const lessons2011 = [
         ]
       },
       {
-        "name": "用户偏好查询",
+        "name": "其他布局条件",
         "values": [
-      "prefers-reduced-motion：用户是否希望减少动画。",
-      "prefers-color-scheme：用户偏好浅色或深色主题。",
-      "prefers-contrast：用户是否偏好更高或更低对比度。"
+      "@media (min-height: 700px)：视口高度足够时生效。",
+      "@media (max-height: 520px)：矮屏或横屏空间紧张时生效。",
+      "@media (orientation: portrait)：竖屏时生效。"
         ]
       }
     ],
@@ -53,12 +53,12 @@ export const lessons2011 = [
     exercise: [
       "把断点从 640px 改为 800px，观察布局切换时机",
       "增加一个在小屏隐藏工具栏的规则",
-      "使用 prefers-reduced-motion 关闭后续动画效果"
+      "添加横屏规则，压缩工具栏或间距"
     ],
     exerciseSolutions: [
       "把 @media (min-width: 640px) 改成 @media (min-width: 800px)，三列布局会等到视口至少 800px 才启用。",
       "在小屏基础样式中可给工具栏项加 .responsive-grid > div:last-child { display: none; }，再在大屏媒体查询里恢复 display: block。",
-      "添加 @media (prefers-reduced-motion: reduce) { * { animation: none; transition: none; scroll-behavior: auto; } }，用于关闭非必要动效。"
+      "添加 @media (orientation: landscape) and (max-height: 520px) { .responsive-grid > div { padding: 12px; } }，让矮屏横向空间更紧凑。"
     ]
   },
   {
