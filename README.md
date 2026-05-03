@@ -49,5 +49,6 @@ npm run build
 - `coreExplanation`
 - `exampleHtml`
 - `exampleCss`
+- `exampleJs`（可选，需要交互脚本的示例才添加）
 - `exercise`
 - `exerciseSolutions`

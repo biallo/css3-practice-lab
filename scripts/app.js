@@ -148,14 +148,23 @@ function renderExplainTab(lesson) {
     <section class="lesson-section">
       <h3>参考示例</h3>
       <div class="example-frame">
-        <iframe id="examplePreview" class="example-preview" title="${lesson.title} 示例预览" sandbox></iframe>
+        <iframe id="examplePreview" class="example-preview" title="${lesson.title} 示例预览" sandbox="allow-scripts"></iframe>
       </div>
       <pre class="code-block"><code>${escapeHtml(lesson.exampleHtml)}</code></pre>
       <pre class="code-block"><code>${escapeHtml(lesson.exampleCss)}</code></pre>
+      ${renderExampleJs(lesson)}
     </section>
   `;
 
   document.getElementById("examplePreview").srcdoc = createExampleDocument(lesson);
+}
+
+function renderExampleJs(lesson) {
+  if (!lesson.exampleJs) {
+    return "";
+  }
+
+  return `<pre class="code-block"><code>${escapeHtml(lesson.exampleJs)}</code></pre>`;
 }
 
 function renderCoreExplanation(lesson) {
@@ -212,7 +221,7 @@ function renderPracticeTab(lesson) {
         </label>
         <div class="practice-preview-wrap">
           <span>效果演示</span>
-          <iframe id="practicePreview" class="practice-preview" title="${lesson.title} 练习效果" sandbox></iframe>
+          <iframe id="practicePreview" class="practice-preview" title="${lesson.title} 练习效果" sandbox="allow-scripts"></iframe>
         </div>
       </div>
       <div class="button-row">

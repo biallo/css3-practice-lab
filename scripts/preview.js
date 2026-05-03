@@ -1,12 +1,14 @@
 export function createExampleDocument(lesson) {
-  return createPreviewDocument(lesson.exampleHtml, lesson.exampleCss);
+  return createPreviewDocument(lesson.exampleHtml, lesson.exampleCss, lesson.exampleJs);
 }
 
 export function renderPracticePreview(lesson, css, preview) {
-  preview.srcdoc = createPreviewDocument(lesson.exampleHtml, css);
+  preview.srcdoc = createPreviewDocument(lesson.exampleHtml, css, lesson.exampleJs);
 }
 
-export function createPreviewDocument(html, css) {
+export function createPreviewDocument(html, css, js = "") {
+  const script = js ? `<script>\n${js.replaceAll("</script", "<\\/script")}\n</script>` : "";
+
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -38,6 +40,7 @@ ${css}
 </head>
 <body>
   ${html}
+  ${script}
 </body>
 </html>`;
 }

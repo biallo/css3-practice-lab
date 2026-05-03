@@ -293,11 +293,32 @@ export const lessons2024 = [
         ]
       }
     ],
-    exampleHtml: `<div class="enter-card">
-  <strong>新消息</strong>
-  <p>元素首次出现时也能拥有过渡动画。</p>
-</div>`,
-    exampleCss: `.enter-card {
+    exampleHtml: `<section class="enter-demo">
+  <button type="button">新增消息</button>
+  <div class="enter-list" aria-live="polite"></div>
+</section>`,
+    exampleCss: `.enter-demo {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 340px);
+}
+
+.enter-demo button {
+  min-height: 40px;
+  border: 0;
+  border-radius: 8px;
+  background: #133f5c;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+}
+
+.enter-list {
+  display: grid;
+  gap: 10px;
+}
+
+.enter-card {
   width: min(100%, 340px);
   padding: 18px;
   border: 1px solid #dce3ed;
@@ -322,6 +343,28 @@ export const lessons2024 = [
   margin: 8px 0 0;
   color: #667085;
 }
+`,
+    exampleJs: `const list = document.querySelector(".enter-list");
+const button = document.querySelector(".enter-demo button");
+let count = 0;
+
+function addMessage() {
+  count += 1;
+  const card = document.createElement("div");
+  card.className = "enter-card";
+  card.innerHTML = \`
+    <strong>新消息 \${count}</strong>
+    <p>元素插入渲染树时会从 @starting-style 过渡到正常状态。</p>
+  \`;
+
+  list.prepend(card);
+
+  if (list.children.length > 2) {
+    list.lastElementChild.remove();
+  }
+}
+
+button.addEventListener("click", addMessage);
 `,
     exercise: [
       "把 translateY 改成 scale，做一个缩放入场效果",

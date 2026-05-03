@@ -179,16 +179,29 @@ export const lessons2025 = [
         ]
       }
     ],
-    exampleHtml: `<article class="view-card">
+    exampleHtml: `<article class="view-card" data-mode="card">
   <div class="view-cover">CSS</div>
-  <h2>视图过渡</h2>
+  <div class="view-copy">
+    <h2>视图过渡</h2>
+    <p>点击或等待自动切换状态。</p>
+  </div>
+  <button type="button">切换视图</button>
 </article>`,
     exampleCss: `.view-card {
+  display: grid;
+  gap: 12px;
   width: min(100%, 340px);
   padding: 16px;
   border: 1px solid #dce3ed;
   border-radius: 12px;
   background: #ffffff;
+  transition: width 260ms ease;
+}
+
+.view-card[data-mode="detail"] {
+  width: min(100%, 460px);
+  grid-template-columns: 150px 1fr;
+  align-items: center;
 }
 
 .view-cover {
@@ -202,19 +215,64 @@ export const lessons2025 = [
   view-transition-name: course-cover;
 }
 
+.view-card h2 {
+  margin: 0;
+  view-transition-name: course-title;
+}
+
+.view-card p {
+  margin: 6px 0 0;
+  color: #667085;
+}
+
+.view-card button {
+  min-height: 40px;
+  border: 0;
+  border-radius: 8px;
+  background: #133f5c;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+}
+
+.view-card[data-mode="detail"] button {
+  grid-column: 1 / -1;
+}
+
 ::view-transition-old(course-cover),
-::view-transition-new(course-cover) {
-  animation-duration: 360ms;
+::view-transition-new(course-cover),
+::view-transition-old(course-title),
+::view-transition-new(course-title) {
+  animation-duration: 520ms;
   animation-timing-function: ease;
 }
 `,
+    exampleJs: `const card = document.querySelector(".view-card");
+const button = card.querySelector("button");
+
+function toggleView() {
+  const update = () => {
+    const nextMode = card.dataset.mode === "card" ? "detail" : "card";
+    card.dataset.mode = nextMode;
+  };
+
+  if (document.startViewTransition) {
+    document.startViewTransition(update);
+  } else {
+    update();
+  }
+}
+
+button.addEventListener("click", toggleView);
+setInterval(toggleView, 1800);
+`,
     exercise: [
-      "给标题也添加 view-transition-name，并比较多个元素同时过渡的效果",
+      "移除标题的 view-transition-name，比较只有封面参与过渡的效果",
       "调整 ::view-transition-new 的动画时长，让新视图更慢出现",
       "思考列表到详情页的共享元素过渡应该标记哪些节点"
     ],
     exerciseSolutions: [
-      "给标题加 view-transition-name: course-title;，再为 ::view-transition-old/new(course-title) 设置动画。",
+      "删除 .view-card h2 的 view-transition-name 后，标题只会跟随普通布局变化，封面仍会参与共享元素过渡。",
       "把 ::view-transition-new(course-cover) 的 animation-duration 改成 600ms，新视图快照会更慢出现。",
       "列表到详情页通常标记封面、标题或主操作按钮；不要给大量重复元素使用同一个 transition name。"
     ]
