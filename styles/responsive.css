@@ -136,7 +136,7 @@
     display: grid;
   }
 
-  .practice-editor-wrap textarea,
+  .practice-code-editor,
   .practice-preview {
     min-height: 240px;
   }

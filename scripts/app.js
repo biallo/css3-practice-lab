@@ -1,5 +1,5 @@
 import { lessons } from "../data/lessons.js";
-import { handleEditorTabKey } from "./editor.js";
+import { renderCodeBlock, setupEditableCodeEditor } from "./highlight.js";
 import { createExampleDocument, renderPracticePreview } from "./preview.js";
 import {
   loadCompletedLessons,
@@ -150,8 +150,8 @@ function renderExplainTab(lesson) {
       <div class="example-frame">
         <iframe id="examplePreview" class="example-preview" title="${lesson.title} 示例预览" sandbox="allow-scripts"></iframe>
       </div>
-      <pre class="code-block"><code>${escapeHtml(lesson.exampleHtml)}</code></pre>
-      <pre class="code-block"><code>${escapeHtml(lesson.exampleCss)}</code></pre>
+      ${renderCodeBlock(lesson.exampleHtml, "html")}
+      ${renderCodeBlock(lesson.exampleCss, "css")}
       ${renderExampleJs(lesson)}
     </section>
   `;
@@ -164,7 +164,7 @@ function renderExampleJs(lesson) {
     return "";
   }
 
-  return `<pre class="code-block"><code>${escapeHtml(lesson.exampleJs)}</code></pre>`;
+  return renderCodeBlock(lesson.exampleJs, "js");
 }
 
 function renderCoreExplanation(lesson) {
@@ -215,10 +215,12 @@ function renderPracticeTab(lesson) {
         ${lesson.exercise.map((item) => `<li>${item}</li>`).join("")}
       </ul>
       <div class="practice-workspace">
-        <label class="practice-editor-wrap">
+        <div class="practice-editor-wrap">
           <span>练习 CSS</span>
-          <textarea id="practiceEditor" spellcheck="false">${escapeHtml(getPracticeDraft(lesson))}</textarea>
-        </label>
+          <div class="code-editor-shell">
+            <pre id="practiceEditor" class="practice-code-editor" contenteditable="true" spellcheck="false" role="textbox" aria-label="练习 CSS"></pre>
+          </div>
+        </div>
         <div class="practice-preview-wrap">
           <span>效果演示</span>
           <iframe id="practicePreview" class="practice-preview" title="${lesson.title} 练习效果" sandbox="allow-scripts"></iframe>
@@ -235,7 +237,7 @@ function renderPracticeTab(lesson) {
         </div>
         ${renderExerciseSolutions(lesson)}
         <h5 class="solution-code-title">参考 CSS</h5>
-        <pre class="code-block"><code>${escapeHtml(getSolutionCss(lesson))}</code></pre>
+        ${renderCodeBlock(getSolutionCss(lesson), "css")}
       </div>
     </section>
   `;
@@ -246,14 +248,15 @@ function renderPracticeTab(lesson) {
   const solutionPanel = document.getElementById("solutionPanel");
   const applySolutionButton = document.getElementById("applySolutionButton");
   const resetPracticeButton = document.getElementById("resetPracticeButton");
-  renderPracticePreview(lesson, practiceEditor.value, practicePreview);
+  const codeEditor = setupEditableCodeEditor(practiceEditor, getPracticeDraft(lesson), "css");
+  renderPracticePreview(lesson, codeEditor.getValue(), practicePreview);
 
   practiceEditor.addEventListener("input", () => {
-    practiceDrafts[lesson.id] = practiceEditor.value;
+    const css = codeEditor.getValue();
+    practiceDrafts[lesson.id] = css;
     savePracticeDrafts(practiceDrafts);
-    renderPracticePreview(lesson, practiceEditor.value, practicePreview);
+    renderPracticePreview(lesson, css, practicePreview);
   });
-  practiceEditor.addEventListener("keydown", handleEditorTabKey);
 
   toggleSolutionButton.addEventListener("click", () => {
     const isOpen = !solutionPanel.hidden;
@@ -263,14 +266,12 @@ function renderPracticeTab(lesson) {
   });
 
   applySolutionButton.addEventListener("click", () => {
-    setPracticeEditorValue(lesson, practiceEditor, practicePreview, getSolutionCss(lesson));
+    setPracticeEditorValue(lesson, codeEditor, practicePreview, getSolutionCss(lesson));
     practiceEditor.focus();
   });
 
   resetPracticeButton.addEventListener("click", () => {
-    setPracticeEditorValue(lesson, practiceEditor, practicePreview, createPracticeStarter(lesson), {
-      scrollToTop: true
-    });
+    setPracticeEditorValue(lesson, codeEditor, practicePreview, createPracticeStarter(lesson));
     practiceEditor.focus();
   });
 }
@@ -366,15 +367,9 @@ function getExerciseSolutions(lesson) {
   return lesson.exercise.map((item) => `参考做法：围绕“${item}”修改左侧 CSS，再对照预览观察变化。`);
 }
 
-function setPracticeEditorValue(lesson, editor, preview, value, options = {}) {
-  const { scrollToTop = false } = options;
-  editor.value = value;
+function setPracticeEditorValue(lesson, editor, preview, value) {
+  editor.setValue(value, 0);
   practiceDrafts[lesson.id] = value;
   savePracticeDrafts(practiceDrafts);
   renderPracticePreview(lesson, value, preview);
-
-  if (scrollToTop) {
-    editor.scrollTop = 0;
-    editor.setSelectionRange(0, 0);
-  }
 }

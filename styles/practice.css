@@ -31,6 +31,53 @@
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   font-size: 0.88rem;
   line-height: 1.65;
+  tab-size: 2;
+  white-space: pre;
+}
+
+.code-block code,
+.practice-code-editor {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  tab-size: 2;
+}
+
+.syntax-comment {
+  color: #8996a9;
+}
+
+.syntax-tag,
+.syntax-selector {
+  color: #78d6ff;
+}
+
+.syntax-attr,
+.syntax-property {
+  color: #8dd6a5;
+}
+
+.syntax-string {
+  color: #ffd479;
+}
+
+.syntax-atrule,
+.syntax-keyword,
+.syntax-important {
+  color: #c7a8ff;
+}
+
+.syntax-number,
+.syntax-variable {
+  color: #ff9da4;
+}
+
+.syntax-function {
+  color: #82e6d9;
+}
+
+.syntax-punctuation {
+  color: #b9c6d8;
 }
 
 .exercise-card {
@@ -150,25 +197,42 @@
   font-weight: 900;
 }
 
-.practice-editor-wrap textarea {
+.code-editor-shell {
+  position: relative;
   width: 100%;
   min-height: 260px;
-  resize: vertical;
   border: 1px solid #263344;
   border-radius: 8px;
+  overflow: hidden;
   outline: none;
   background: #101828;
-  color: #edf4ff;
-  padding: 16px;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-size: 0.88rem;
-  line-height: 1.65;
-  tab-size: 2;
 }
 
-.practice-editor-wrap textarea:focus {
+.code-editor-shell:focus-within {
   border-color: #51b7b0;
   box-shadow: 0 0 0 3px rgba(27, 127, 121, 0.18);
+}
+
+.practice-code-editor {
+  display: block;
+  width: 100%;
+  min-height: 260px;
+  margin: 0;
+  padding: 16px;
+  overflow: auto;
+  resize: vertical;
+  outline: none;
+  color: #edf4ff;
+  font-variant-ligatures: none;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  background: transparent;
+  caret-color: #edf4ff;
+}
+
+.practice-code-editor::selection,
+.practice-code-editor *::selection {
+  background: rgba(81, 183, 176, 0.28);
 }
 
 .practice-preview {
