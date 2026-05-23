@@ -32,7 +32,7 @@
   font-size: 0.88rem;
   line-height: 1.65;
   tab-size: 2;
-  white-space: pre;
+  white-space: pre-wrap;
 }
 
 .code-block code,
