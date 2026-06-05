@@ -1,6 +1,6 @@
-import { lessons } from "../data/lessons.js";
-import { renderCodeBlock, setupEditableCodeEditor } from "./highlight.js";
-import { createExampleDocument, renderPracticePreview } from "./preview.js";
+import { lessons } from "./data/lessons.js";
+import { renderCodeBlock, setupEditableCodeEditor } from "./modules/highlight.js";
+import { createExampleDocument, renderPracticePreview } from "./modules/preview.js";
 import {
   loadCompletedLessons,
   loadPracticeDrafts,
@@ -8,8 +8,8 @@ import {
   saveCompletedLessons,
   savePracticeDrafts,
   saveSelectedLessonId
-} from "./storage.js";
-import { escapeHtml, scrollLessonCardIntoView } from "./utils.js";
+} from "./modules/storage.js";
+import { escapeHtml, scrollLessonCardIntoView } from "./modules/utils.js";
 
 const lessonList = document.getElementById("lessonList");
 const mobileLessonSelect = document.getElementById("mobileLessonSelect");
@@ -24,7 +24,7 @@ const practiceDrafts = loadPracticeDrafts();
 let selectedLessonId = loadSelectedLessonId(lessons);
 let activeTab = "explain";
 
-export function initApp() {
+function initApp() {
   mobileLessonSelect.addEventListener("change", (event) => {
     selectLesson(Number(event.target.value));
   });
@@ -43,6 +43,8 @@ export function initApp() {
   selectLesson(selectedLessonId, { scrollOnMobile: false });
 }
 
+initApp();
+
 function renderLessonCards() {
   lessonList.innerHTML = "";
   lessons.forEach((lesson) => {
@@ -55,9 +57,12 @@ function renderLessonCards() {
         <h3>${lesson.title}</h3>
         <div class="lesson-details">
           <p>${lesson.description}</p>
-          <span class="lesson-status">${completedLessons.has(lesson.id) ? "已完成" : "未完成"}</span>
         </div>
       </div>
+      ${completedLessons.has(lesson.id)
+        ? `<span class="lesson-status">✓</span>`
+        : ""
+      }
     `;
     card.addEventListener("click", () => selectLesson(lesson.id));
     card.dataset.lessonId = lesson.id;

@@ -1,5 +1,5 @@
-@import "./styles/base.css";
-@import "./styles/layout.css";
-@import "./styles/lessons.css";
-@import "./styles/practice.css";
-@import "./styles/responsive.css";
+@import "./src/styles/base.css";
+@import "./src/styles/layout.css";
+@import "./src/styles/lessons.css";
+@import "./src/styles/practice.css";
+@import "./src/styles/responsive.css";

@@ -2,7 +2,6 @@
   "name": "css3-practice-lab",
   "version": "0.0.1",
   "description": "一个 CSS3 重要知识点的课程练习项目。",
-  "main": "script.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
